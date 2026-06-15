@@ -47,7 +47,7 @@ function creatCard(ele) {
                   
                   <div class="mt-4">${element.body}</div>
 
-                  <div>${element.postId}</div>
+                  <div><strong>${element.postId}</strong></div>
                 </div>
                 <div class="card-footer d-flex justify-content-between border-primary">
                   <button class="btn btn-light  border-info"><i class="fa-solid text-info fa-pen-to-square" onclick="onEdit(this)"></i></button>
@@ -94,7 +94,7 @@ function onSubmit(eve) {
                   
                   <div class="mt-4">${newObj.body}</div>
 
-                  <div>${newObj.postId}</div>
+                  <div><strong>${newObj.postId}</strong></strong></div>
                 </div>
                 <div class="card-footer border-primary d-flex justify-content-between">
                   <button class="btn btn-light border-info" onclick="onEdit(this)"><i class="fa-solid text-info fa-pen-to-square"></i></button>
@@ -177,7 +177,7 @@ function onUpdateHandalar(ele) {
                   
                   <div class="mt-4">${updateObj.body}</div>
 
-                  <div>${postArr.postId}</div>
+                  <div><strong>${postArr.postId}</strong></div>
                 </div>
                 <div class="card-footer border-primary d-flex justify-content-between">
                 <button class="btn btn-light border-info" onclick="onEdit(this)"><i class="fa-solid text-info fa-pen-to-square"></i></button>
