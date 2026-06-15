@@ -47,7 +47,7 @@ function creatCard(ele) {
                   
                   <div class="mt-4">${element.body}</div>
 
-                  <div></div>
+                  <div>${element.postId}</div>
                 </div>
                 <div class="card-footer d-flex justify-content-between border-primary">
                   <button class="btn btn-light  border-info"><i class="fa-solid text-info fa-pen-to-square" onclick="onEdit(this)"></i></button>
@@ -69,6 +69,7 @@ function onSubmit(eve) {
     name: name.value,
     email: email.value,
     body: body.value,
+    postId: postId.value,
   };
 
   postArr.push(newObj);
@@ -93,7 +94,7 @@ function onSubmit(eve) {
                   
                   <div class="mt-4">${newObj.body}</div>
 
-                  <div></div>
+                  <div>${newObj.postId}</div>
                 </div>
                 <div class="card-footer border-primary d-flex justify-content-between">
                   <button class="btn btn-light border-info" onclick="onEdit(this)"><i class="fa-solid text-info fa-pen-to-square"></i></button>
@@ -112,6 +113,7 @@ function onSubmit(eve) {
       });
       spinner.classList.add("d-none");
     }
+    commentForm.reset();
   };
 }
 
@@ -150,6 +152,7 @@ function onUpdateHandalar(ele) {
     name: name.value,
     email: email.value,
     body: body.value,
+    postId: postId.value,
   };
 
   let xhr = new XMLHttpRequest();
@@ -174,7 +177,7 @@ function onUpdateHandalar(ele) {
                   
                   <div class="mt-4">${updateObj.body}</div>
 
-                  <div></div>
+                  <div>${postArr.postId}</div>
                 </div>
                 <div class="card-footer border-primary d-flex justify-content-between">
                 <button class="btn btn-light border-info" onclick="onEdit(this)"><i class="fa-solid text-info fa-pen-to-square"></i></button>
@@ -193,6 +196,8 @@ function onUpdateHandalar(ele) {
       icon: "success",
       timer: 2000,
     });
+
+    commentForm.reset();
   };
 }
 
