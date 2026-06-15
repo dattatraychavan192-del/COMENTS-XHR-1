@@ -63,6 +63,7 @@ function creatCard(ele) {
 
 function onSubmit(eve) {
   eve.preventDefault();
+
   spinner.classList.remove("d-none");
 
   let newObj = {
@@ -131,6 +132,8 @@ function onEdit(ele) {
     if (xhr.status >= 200 && xhr.status <= 299) {
       let editObj = JSON.parse(xhr.response);
 
+      commentForm.classList.remove("d-none");
+
       name.value = editObj.name;
       email.value = editObj.email;
       postId.value = editObj.postId;
@@ -138,6 +141,11 @@ function onEdit(ele) {
 
       editBtn.classList.add("d-none");
       updateBtn.classList.remove("d-none");
+
+      commentForm.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
     spinner.classList.add("d-none");
   };

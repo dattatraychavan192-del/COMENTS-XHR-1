@@ -11,11 +11,11 @@
     text-overflow: ellipsis;
 }
 
-/* .card{ 
+.card{ 
        flex:1; 
        height:100%; 
 
-} */
+}
 
 .spinner{
     position: fixed;
