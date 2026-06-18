@@ -16,16 +16,28 @@ let postArr = [];
 
 let baseURl = "https://jsonplaceholder.typicode.com";
 
+function snackbar(msg, icon) {
+  swal.fire({
+    title: msg,
+    icon: icon,
+    timer: 2000,
+  });
+}
+
 function fetchComment(ele) {
+  spinner.classList.remove("d-none");
+
   let xhr = new XMLHttpRequest();
   xhr.open("GET", `${baseURl}/comments`);
   xhr.send(null);
   xhr.onload = function () {
     if (xhr.status >= 200 && xhr.status <= 299) {
       postArr = JSON.parse(xhr.response);
-
       creatCard(postArr);
-      cl(postArr);
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+      spinner.classList.add("d-none");
     }
   };
 }
@@ -40,7 +52,7 @@ function creatCard(ele) {
             <div class="col-md-4 mt-3" id="${element.id}">
             <div class="card shadow h-100 d-flex flex-column">
                 <div class="card-header">
-                <div><strong>${element.name}</strong></div>
+                <div data-toggle="tooltip" data-placement="top" title="${element.name}"><strong>${element.name}</strong></div>
                 </div>
                 <div class="card-body">
                   <div><strong>Email : ${element.email}</strong></div>
@@ -84,10 +96,11 @@ function onSubmit(eve) {
       let response = JSON.parse(xhr.response);
       let div = document.createElement("div");
       div.className = "col-md-4 mt-3";
+      div.id = response.id;
       div.innerHTML = `
     
     <div class="card shadow h-100 d-flex justify-content-between">
-                <div class="card-header">
+                <div class="card-header" data-toggle="tooltip" data-placement="top" title="${newObj.name}">
                 <strong>${newObj.name}</strong>
                 </div>
                 <div class="card-body">
@@ -106,15 +119,10 @@ function onSubmit(eve) {
              
     `;
       cardContainer.prepend(div);
-
-      swal.fire({
-        title: "Comment Add Successfully",
-        icon: "success",
-        timer: 2000,
-      });
-      spinner.classList.add("d-none");
     }
     commentForm.reset();
+    spinner.classList.add("d-none");
+    snackbar("New post add successfully");
   };
 }
 
@@ -142,12 +150,15 @@ function onEdit(ele) {
       editBtn.classList.add("d-none");
       updateBtn.classList.remove("d-none");
 
+      commentForm.classList.remove("d-none");
+
       commentForm.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
+
+      spinner.classList.add("d-none");
     }
-    spinner.classList.add("d-none");
   };
 }
 
@@ -185,7 +196,7 @@ function onUpdateHandalar(ele) {
                   
                   <div class="mt-4">${updateObj.body}</div>
 
-                  <div><strong>${postArr.postId}</strong></div>
+                  <div><strong>${updateObj.postId}</strong></div>
                 </div>
                 <div class="card-footer border-primary d-flex justify-content-between">
                 <button class="btn btn-light border-info" onclick="onEdit(this)"><i class="fa-solid text-info fa-pen-to-square"></i></button>
@@ -193,26 +204,30 @@ function onUpdateHandalar(ele) {
               </div>
               </div>
       
-      `;
+            `;
+
+      commentForm.reset();
       editBtn.classList.remove("d-none");
       updateBtn.classList.add("d-none");
-      spinner.classList.add("d-none");
-    }
-    commentForm.reset();
-    swal.fire({
-      title: "Comment Update Succssefully",
-      icon: "success",
-      timer: 2000,
-    });
 
-    commentForm.reset();
+      div.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      div.classList.add("highlight");
+
+      setTimeout((highlight) => {
+        div.classList.remove("highlight");
+      }, 4000);
+    }
+    spinner.classList.add("d-none");
+    snackbar("Post update successfully.", "success");
   };
 }
 
 function onDelete(ele) {
   spinner.classList.remove("d-none");
-
-  let deletId = ele.closest(".col-md-4").id;
 
   Swal.fire({
     title: "Are you sure?",
@@ -224,8 +239,8 @@ function onDelete(ele) {
     confirmButtonText: "Yes, delete it!",
   }).then((result) => {
     if (result.isConfirmed) {
+      let deletId = ele.closest(".col-md-4").id;
       let deleteUrl = `${baseURl}/comments/${deletId}`;
-
       let xhr = new XMLHttpRequest();
       xhr.open("DELETE", deleteUrl);
       xhr.send(null);
@@ -234,6 +249,7 @@ function onDelete(ele) {
           ele.closest(".col-md-4").remove();
           spinner.classList.add("d-none");
         }
+        snackbar("Post delete successfully.", "success");
       };
     }
   });
